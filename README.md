@@ -17,4 +17,7 @@ Siga os passos
 2 - Após isso, copie a chave de demonstração e cole onde está escrito, chave da sala.
 3 - Em seguida, clique em conectar. Ao conectar, irá receber a notificação em cima do botão "Conectar" e já pode dar play. Do contrário, tente refazer estas etapas.
 
+
+Então, abra outra guia e com este mesmo link de demonstração e siga os mesmos passos novamente.
+
 Projeto em fase de teste.
