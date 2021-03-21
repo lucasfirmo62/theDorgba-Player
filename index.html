@@ -1,0 +1,222 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+<script text="javascript" src="https://webtiming.github.io/timingsrc/lib/timingsrc-v2.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+
+<!---->
+<link href='./src/style.css' rel='stylesheet' />
+
+<!--Script MEDIASYNC BY Motion Corporation-->
+<script type="text/javascript" src="https://www.mcorp.no/lib/mcorp-2.0.js"></script>
+<script text="javascript" src="https://mcorp.no/lib/mediasync.js"></script>
+<!--fim do script-->
+
+<!--Script-->
+<script type="text/javascript" src="./src/thevids.js"></script>
+<script type="text/javascript" src="./src/torrent.js"></script>
+
+<script type="text/javascript">
+  var key_MCORP;
+  function key_mcorp(){
+    document.getElementById("load_key").innerHTML = "Conectando..."
+    key_MCORP =  document.getElementById("key_MCORP").value;
+    var APPID_MCORP = key_MCORP;
+    var app = MCorp.app(APPID_MCORP, {anon:true});
+
+    app.run = function () {
+      //console.log(app.motions.shared);
+      if (document.readyState === "complete"){ 
+        run(app.motions.shared);
+        document.getElementById("load_key").innerHTML = "Conectado &#10003;"
+    }
+      else window.onload = function () {run(app.motions.shared);};
+    };
+    app.init();
+  }
+
+</script>
+
+<body>
+  
+  <div id="player"></div>
+  
+  <video id="player1" src=""></video>
+  
+
+  
+  <div id="grid">
+    
+    <painel class="circle-button"></painel>
+
+      <timing class="circle-button" id="display_time">00:00:00/00:00:00</timing>
+
+  
+      <p id="buttons">
+        <pause id="centerPlay" onclick="playPause()">pause</pause>
+        <return class="circle-button" id="return" onclick="thetiming.back();"></return>
+        <advance class="circle-button" id="advance" onclick="thetiming.advanced();"></advance>
+        <reset class="circle-button" id="tostart">RESET</reset>
+        <play-pause class="circle-button" id="pause" onclick="playPause()"></play-pause>
+        <velocity class="circle-button" id="velocity" onclick="playPause();  togglePlayPause();">>></velocity>
+        <progress class="circle-button" id="progress" max="100" value="0">Progress</progress>
+        <users class="circle-button" onclick="users_names()"></users>
+        <loadFile id="loadFile">
+          <solid_conf>
+            <title_one>Mídia</title_one>
+            <title_two>Sala</title_two>
+            <input type="text" class="link_text" id="link" placeholder="Link do video .mp4" size="40">
+            <carregar_link onclick="go_link_video()" class="carregar_link">ir</carregar_link>
+            <input type="file" name="file[]" onclick="file_read_video()" class="file_multi_video" accept="video/*">
+            <input type="text" class="link_magentico" id="link_magnet" placeholder="Torrent Magnet link" size="40" disabled>
+            <carregar_link onclick="go_torrent_video()" class="carregar_magnet" disabled>ir</carregar_link>
+            <input type="text" class="name_user" id="name_user" placeholder="Seu nome na sala" size="30">
+            <input type="text" class="link_room" id="key_MCORP" placeholder="Chave da sala" size="30">
+            <carregar_link onclick="key_mcorp()" class="carregar_room">CONECTAR</carregar_link>
+            <ou1>OU</ou1>
+            <ou2>OU</ou2>
+            <demo_key>Chave de demonstração: 6951379360865560676</demo_key>
+            <but_close_confg onclick="close_config()">x</but_close_confg>
+            <load_key id="load_key">Não conectado &#10007;</load_key>
+            <obs>Responsividade ainda não disponível, apenas desktop.</obs>
+          </solid_conf>
+          <!--<input type="file" class="subs" id="fileInput" />-->
+        </loadFile>
+        <config class="circle-button" onclick="loadF(); configuration();"/>
+        <configSelect class="circle-button" onclick="loadF(); configuration();"/>
+      </p>
+      
+      <solid_conf id="users_names">
+          <but_close_confg onclick="close_users()">x</but_close_confg>
+      </solid_conf>
+      
+      
+    </div>
+    
+    <fullMatte class="circle-button" type="button" id="goFS" onclick="toggleFullScreen()">
+    
+  </body>
+
+<script src="./src/player.js"></script>
+
+<script src="./src/subtitles.js"></script>
+
+<!--
+  <script type="text/vtt" id="drog">
+</script>
+
+-->
+
+<script type="text/vtt" id="subtitle" data-label="English" data-lang="en">
+
+
+  
+</script>
+
+<script>
+
+
+window.onload = function() {
+		var fileInput = document.getElementById('fileInput');
+		var fileDisplayArea = document.getElementById('subtitle');
+
+		fileInput.addEventListener('change', function(e) {
+			var file = fileInput.files[0];
+			var textType = /text.*/;
+
+			if (file.type.match(textType)) {
+				var reader = new FileReader();
+
+				reader.onload = function(e) {
+					fileDisplayArea.innerText = reader.result;
+				}
+
+				reader.readAsText(file);	
+			} else {
+				fileDisplayArea.innerText = "Arquivo não suportado."
+			}
+		});
+}
+
+</script>
+
+
+
+  <script>
+    function parse_timestamp(s) {
+      //var match = s.match(/^(?:([0-9]{2,}):)?([0-5][0-9]):([0-5][0-9][.,][0-9]{0,3})/);
+      // Relaxing the timestamp format:
+      var match = s.match(/^(?:([0-9]+):)?([0-5][0-9]):([0-5][0-9](?:[.,][0-9]{0,3})?)/);
+      if (match == null) {
+        throw 'Invalid timestamp format: ' + s;
+      }
+      var hours = parseInt(match[1] || "0", 10);
+      var minutes = parseInt(match[2], 10);
+      var seconds = parseFloat(match[3].replace(',', '.'));
+      return seconds + 60 * minutes + 60 * 60 * hours;
+    }
+    
+    // https://w3c.github.io/webvtt/
+    // https://developer.mozilla.org/en/docs/Web/API/Web_Video_Text_Tracks_Format
+    // https://en.wikipedia.org/wiki/WebVTT
+    //
+    // For better parsers, look at:
+    // https://github.com/annevk/webvtt
+    // https://github.com/mozilla/vtt.js
+    function quick_and_dirty_vtt_or_srt_parser(vtt) {
+      var lines = vtt.trim().replace('\r\n', '\n').split(/[\r\n]/).map(function(line) {
+        return line.trim();
+      });
+      var cues = [];
+      var start = null;
+      var end = null;
+      var payload = null;
+      for (var i = 0; i < lines.length; i++) {
+        if (lines[i].indexOf('-->') >= 0) {
+          var splitted = lines[i].split(/[ \t]+-->[ \t]+/);
+          if (splitted.length != 2) {
+            throw 'Error when splitting "-->": ' + lines[i];
+          }
+    
+          // Already ignoring anything past the "end" timestamp (i.e. cue settings).
+          start = parse_timestamp(splitted[0]);
+          end = parse_timestamp(splitted[1]);
+        } else if (lines[i] == '') {
+          if (start && end) {
+            var cue = new VTTCue(start, end, payload);
+            cues.push(cue);
+            start = null;
+            end = null;
+            payload = null;
+          }
+        } else if(start && end) {
+          if (payload == null) {
+            payload = lines[i];
+          } else {
+            payload += '\n' + lines[i];
+          }
+        }
+      }
+      if (start && end) {
+        var cue = new VTTCue(start, end, payload);
+        cues.push(cue);
+      }
+    
+      return cues;
+    }
+    
+    function init() {
+      // http://www.html5rocks.com/en/tutorials/track/basics/
+      // https://www.iandevlin.com/blog/2015/02/javascript/dynamically-adding-text-tracks-to-html5-video
+      var video = document.querySelector('video');
+      var subtitle = document.getElementById('subtitle');
+      var track = video.addTextTrack('subtitles', subtitle.dataset.label, subtitle.dataset.lang);
+      track.mode = "showing";
+      quick_and_dirty_vtt_or_srt_parser(subtitle.innerHTML).map(function(cue) {
+        track.addCue(cue);
+      });
+    }
+    init();
+    </script>
+<script src="https://cdn.jsdelivr.net/npm/@webtor/player-sdk-js@0.2.12/dist/index.min.js" charset="utf-8"></script>
