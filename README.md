@@ -1,4 +1,4 @@
-# theDorgba-Player
+# theDrogba-Player
 Player compartilhado de Vídeo
 
 Com o objetivo de ver algum video compartilhado, esse projeto serve para simular uma sala de cinema para amigos que estão longe e que querem ver algo ao mesmo tempo.
