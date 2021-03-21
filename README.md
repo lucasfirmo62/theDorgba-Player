@@ -10,7 +10,9 @@ Utilizando como base, um algoritimo de compartilhamento de ações da MEDIASYNC 
 Demonstração:
 https://the-drogba.lucasfirmo1.repl.co/
 
-Iniciação: 
+Siga os passos
+
+
 1 - Ao iniciar, deve se dirigir a seleção do video, video hospedado ou um em seu dispositivo.
 2 - Após isso, copie a chave de demonstração e cole onde está escrito, chave da sala.
 3 - Em seguida, clique em conectar. Ao conectar, irá receber a notificação em cima do botão "Conectar" e já pode dar play. Do contrário, tente refazer estas etapas.
