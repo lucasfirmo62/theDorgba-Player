@@ -7,7 +7,7 @@ Este player utilza de opções compartilhadas, como play e pause, adiantar e vol
 
 Utilizando como base, um algoritimo de compartilhamento de ações da MEDIASYNC BY Motion Corporation.
 
-Demonstração
+Demonstração:
 https://the-drogba.lucasfirmo1.repl.co/
 
 Iniciação: 
